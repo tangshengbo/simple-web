@@ -1,5 +1,6 @@
 package com.tangshengbo.service;
 
+import com.tangshengbo.dao.DatabaseHelper;
 import com.tangshengbo.model.Customer;
 import org.junit.Assert;
 import org.junit.Before;
@@ -22,7 +23,7 @@ public class CustomerServiceTest {
 
     @Before
     public void init() {
-        //TODO
+        DatabaseHelper.executeSqlFile("sql/customer_init.sql");
     }
 
     @Test
