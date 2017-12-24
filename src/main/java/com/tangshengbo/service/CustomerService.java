@@ -1,5 +1,6 @@
 package com.tangshengbo.service;
 
+import com.tangshengbo.annotation.Service;
 import com.tangshengbo.dao.DatabaseHelper;
 import com.tangshengbo.model.Customer;
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import java.util.Map;
 /**
  * Created by TangShengBo on 2017/12/21.
  */
+@Service
 public class CustomerService {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerService.class);

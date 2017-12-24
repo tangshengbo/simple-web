@@ -21,7 +21,7 @@ public class CustomerCreateServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        logger.info("成功OK");
+        logger.info("成功OK {}", req.getContextPath());
         CustomerService service = new CustomerService();
         req.setAttribute("customerList",  service.getCustomerList());
         req.getRequestDispatcher("/WEB-INF/view/customer.jsp").forward(req,resp);
