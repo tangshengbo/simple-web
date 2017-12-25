@@ -93,7 +93,7 @@ public class DatabaseHelper {
         List<T> entityList;
         try {
             Connection conn = getConnection();
-            entityList = QUERY_RUNNER.query(conn, sql, new BeanListHandler<T>(entityClass), params);
+            entityList = QUERY_RUNNER.query(conn, sql, new BeanListHandler<>(entityClass), params);
         } catch (SQLException e) {
             logger.error("query entity list failure", e);
             throw new RuntimeException(e);
@@ -108,7 +108,7 @@ public class DatabaseHelper {
         T entity;
         try {
             Connection conn = getConnection();
-            entity = QUERY_RUNNER.query(conn, sql, new BeanHandler<T>(entityClass), params);
+            entity = QUERY_RUNNER.query(conn, sql, new BeanHandler<>(entityClass), params);
         } catch (SQLException e) {
             logger.error("query entity failure", e);
             throw new RuntimeException(e);

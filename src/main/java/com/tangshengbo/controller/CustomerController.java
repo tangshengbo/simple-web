@@ -5,6 +5,7 @@ import com.tangshengbo.annotation.Inject;
 import com.tangshengbo.annotation.RequestMapping;
 import com.tangshengbo.bean.Data;
 import com.tangshengbo.bean.Param;
+import com.tangshengbo.bean.View;
 import com.tangshengbo.model.Customer;
 import com.tangshengbo.service.CustomerService;
 import org.slf4j.Logger;
@@ -24,14 +25,20 @@ public class CustomerController {
     private CustomerService customerService;
 
     @RequestMapping("get:/customer_show")
-    public Data getCustomerList(Param param) {
-        logger.info("执行方法");
+    public View getCustomerList() {
+        logger.info("执行方法 参数 {}");
         List<Customer> customerList = customerService.getCustomerList();
-//        View view = new View("customer.jsp");
-//        view.getModel().put("customerList", customerList);
-        Data data = new Data();
-        data.setModel(customerList);
-        return data;
+        View view = new View("customer.jsp");
+        view.getModel().put("customerList", customerList);
+        return view;
     }
 
+    @RequestMapping("get:/customer")
+    public Data getCustomerById(Param param) {
+        logger.info("执行方法 参数 {}", param);
+        Customer customer = customerService.getCustomer(param.getLong("id"));
+        Data data = new Data();
+        data.setModel(customer);
+        return data;
+    }
 }
