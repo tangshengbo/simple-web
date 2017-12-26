@@ -45,15 +45,15 @@ public class CustomerController {
     }
 
     @RequestMapping("get:/create_customer")
-    public Data createCustomer(Param param) {
-        logger.info("执行方法 参数 {}", param);
+    public Data createCustomer() {
+        logger.info("执行方法 参数 {}");
         Map<String, Object> fieldMap = new HashMap<>();
         fieldMap.put("name", "");
         fieldMap.put("contact", "");
         fieldMap.put("telephone", "");
         fieldMap.put("email", "");
         Object[][] o = new Object[10][4];
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 4; j++) {
                 o[i][j] = i + j;
             }
