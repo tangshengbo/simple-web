@@ -11,7 +11,9 @@ import com.tangshengbo.service.CustomerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by TangShengBo on 2017/12/24.
@@ -39,6 +41,26 @@ public class CustomerController {
         Customer customer = customerService.getCustomer(param.getLong("id"));
         Data data = new Data();
         data.setModel(customer);
+        return data;
+    }
+
+    @RequestMapping("get:/create_customer")
+    public Data createCustomer(Param param) {
+        logger.info("执行方法 参数 {}", param);
+        Map<String, Object> fieldMap = new HashMap<>();
+        fieldMap.put("name", "");
+        fieldMap.put("contact", "");
+        fieldMap.put("telephone", "");
+        fieldMap.put("email", "");
+        Object[][] o = new Object[10][4];
+        for (int i = 0; i < 100; i++) {
+            for (int j = 0; j < 4; j++) {
+                o[i][j] = i + j;
+            }
+        }
+        customerService.createCustomerBatch(fieldMap, o);
+        Data data = new Data();
+        data.setModel("成功");
         return data;
     }
 }

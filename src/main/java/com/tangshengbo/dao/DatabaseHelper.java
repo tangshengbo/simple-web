@@ -4,6 +4,7 @@ import com.tangshengbo.util.CollectionUtil;
 import com.tangshengbo.util.PropsUtil;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.ArrayListHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
@@ -133,6 +134,7 @@ public class DatabaseHelper {
 
     /**
      * 执行更新语句(update, insert, delete)
+     *
      * @return rows 受影响的行数
      */
     public static int executeUpdate(String sql, Object... params) {
@@ -155,21 +157,37 @@ public class DatabaseHelper {
             logger.error("can not insert entity: fieldMap is empty");
             return false;
         }
+        String sql = getSql(entityClass, fieldMap);
+        logger.info(sql);
+        Object[] params = fieldMap.values().toArray();
+        return executeUpdate(sql, params) == 1;
+    }
 
+    private static <T> String getSql(Class<T> entityClass, Map<String, Object> fieldMap) {
         String sql = "INSERT INTO " + getTableName(entityClass);
         StringBuilder columns = new StringBuilder("(");
         StringBuilder values = new StringBuilder("(");
-        for (String fieldName: fieldMap.keySet()) {
+        for (String fieldName : fieldMap.keySet()) {
             columns.append(fieldName).append(", ");
             values.append("?, ");
         }
         columns.replace(columns.lastIndexOf(", "), columns.length(), ")");
         values.replace(values.lastIndexOf(", "), values.length(), ")");
         sql += columns + " VALUES " + values;
+        return sql;
+    }
 
-        logger.info(sql);
-        Object[] params = fieldMap.values().toArray();
-        return executeUpdate(sql, params) == 1;
+    public static <T> boolean insertBatchEntity(Class<T> entityClass, Map<String, Object> fieldMap, Object[][] params) {
+        try {
+            Connection conn = getConnection();
+            ArrayListHandler handler = new ArrayListHandler();
+            String sql = getSql(entityClass, fieldMap);
+            QUERY_RUNNER.insertBatch(conn, sql, handler, params);
+        } catch (SQLException e) {
+            logger.error("execute update failure", e);
+            throw new RuntimeException(e);
+        }
+        return true;
     }
 
     /**
@@ -180,10 +198,9 @@ public class DatabaseHelper {
             logger.error("can not update entity: fieldMap is empty");
             return false;
         }
-
-        String sql= "UPDATE " + getTableName((entityClass)) + " SET ";
+        String sql = "UPDATE " + getTableName((entityClass)) + " SET ";
         StringBuilder columns = new StringBuilder();
-        for (String fieldName: fieldMap.keySet()) {
+        for (String fieldName : fieldMap.keySet()) {
             columns.append(fieldName).append("=?, ");
         }
         sql += columns.substring(0, columns.lastIndexOf(", ")) + " WHERE id=?";

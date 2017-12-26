@@ -41,6 +41,12 @@ public class CustomerService {
     }
 
     /**
+     * 创建客户
+     */
+    public boolean createCustomerBatch(Map<String, Object> fieldMap, Object[][] params) {
+        return DatabaseHelper.insertBatchEntity(Customer.class, fieldMap, params);
+    }
+    /**
      * 更新客户
      */
     public boolean updateCustomer(long id, Map<String, Object> fieldMap) {
