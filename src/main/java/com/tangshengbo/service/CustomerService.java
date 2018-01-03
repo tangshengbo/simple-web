@@ -1,7 +1,7 @@
 package com.tangshengbo.service;
 
 import com.tangshengbo.annotation.Service;
-import com.tangshengbo.dao.DatabaseHelper;
+import com.tangshengbo.helper.DatabaseHelper;
 import com.tangshengbo.model.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,6 +43,7 @@ public class CustomerService {
     /**
      * 创建客户
      */
+//    @Transaction
     public boolean createCustomerBatch(Map<String, Object> fieldMap, Object[][] params) {
         return DatabaseHelper.insertBatchEntity(Customer.class, fieldMap, params);
     }

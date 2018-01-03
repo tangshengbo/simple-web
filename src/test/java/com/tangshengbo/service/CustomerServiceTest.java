@@ -1,6 +1,6 @@
 package com.tangshengbo.service;
 
-import com.tangshengbo.dao.DatabaseHelper;
+import com.tangshengbo.helper.DatabaseHelper;
 import com.tangshengbo.model.Customer;
 import org.junit.Assert;
 import org.junit.Before;
