@@ -44,6 +44,11 @@ public class CustomerController {
         return data;
     }
 
+    @RequestMapping("get:/error")
+    public View getErrorPage() {
+        return new View("error.html");
+    }
+
     @RequestMapping("get:/create_customer")
     public Data createCustomer() {
         logger.info("执行方法 参数 {}");
